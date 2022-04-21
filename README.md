@@ -35,3 +35,5 @@ NodeJS is needed to run the game locally. Docker support will be added soon.
 - Enemies
 - Fight system
 - Changing locations
+
+### Sprites made by [finalbossblues](https://finalbossblues.com/)
