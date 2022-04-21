@@ -1,0 +1,34 @@
+body {
+    margin: 0;
+    background: #000;
+}
+
+.canvas-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.canvas-wrapper canvas {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.canvas-wrapper canvas:focus {
+    outline: none;
+}
+
+#main-canvas {
+    background: #222;
+}
+
+#loading-canvas {
+    background: #000;
+}
+
+#loading-canvas.hidden {
+    opacity: 0;
+    pointer-events: none;
+    /* transition: opacity .5s; */
+}
