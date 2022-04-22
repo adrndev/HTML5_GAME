@@ -10,15 +10,24 @@ export const game = {
     this.mainCanvas = document.querySelector('#main-canvas')
     this.mainCanvas.getContext('2d').imageSmoothingEnabled = false
     this.gamedata = await loadJson('data/data.json')
-    this.player = new Player({ name: 'adrn', speed: 160, characterId: 0, x: 100, y: 100 })
+
+    // #DEVELOPMENT
+    let playerPosition = {
+      x: parseInt(sessionStorage.getItem('x')) || 640,
+      y: parseInt(sessionStorage.getItem('y')) || 480
+    }
+    this.player = new Player({ name: 'adrn', speed: 160, characterId: 0, x: playerPosition.x, y: playerPosition.y })
     this.map = new Map({ mapId: 0 })
-    this.camera = new Camera({ target: this.player })
 
     await Promise.all(this.loadingPromises)
+    this.camera = new Camera({ target: this.player })
     this.isLoading = false
     this.setupListeners()
     this.update()
-    console.log(this);
+    console.log(this)
+
+    // #DEVELOPMENT
+    window.game = this
   },
 
   loadingPromises: [],
@@ -30,6 +39,17 @@ export const game = {
 
   gameObjects: [],
   gameComponents: [],
+  mouse: {
+    x: 0,
+    y: 0,
+    clicked: false,
+    clickPosition: {
+      x: 0, y: 0
+    },
+    lastClickPosition: {
+      x: 0, y: 0
+    }
+  },
 
   tileSize: 16,
 
@@ -72,23 +92,6 @@ export const game = {
   },
 
   setupListeners: function () {
-    const setPlayerMovement = (code, value) => {
-      switch (code) {
-        case 'KeyW':
-          this.player.moveDirections.up.state = value
-          break
-        case 'KeyD':
-          this.player.moveDirections.right.state = value
-          break
-        case 'KeyS':
-          this.player.moveDirections.down.state = value
-          break
-        case 'KeyA':
-          this.player.moveDirections.left.state = value
-          break
-      }
-    }
-
     this.mainCanvas.addEventListener('keydown', (ev) => {
       if (inputManager[ev.code]?.keydown) {
         inputManager[ev.code].keydown.bind(this)()
@@ -103,6 +106,46 @@ export const game = {
 
     this.mainCanvas.addEventListener('blur', () => {
       this.player.stop()
+    })
+
+    document.addEventListener('mousemove', (ev) => {
+      this.mouse.x += ev.movementX
+      this.mouse.y += ev.movementY
+
+      if(document.pointerLockElement === this.mainCanvas) {
+        let diffX = this.mouse.clickPosition.x - this.mouse.x,
+            diffY = this.mouse.clickPosition.y - this.mouse.y
+        
+        this.camera.focusingTarget = false
+        this.camera.move({ x: Math.round(diffX), y: Math.round(diffY) })
+
+        this.mouse.clickPosition.x = this.mouse.x
+        this.mouse.clickPosition.y = this.mouse.y
+      }
+    })
+
+    this.mainCanvas.addEventListener('mozpointerlockchange', () => {
+
+    })
+
+    this.mainCanvas.addEventListener('mousedown', (ev) => {
+      if(ev.which == 2) {
+        ev.preventDefault()
+
+        this.mainCanvas.requestPointerLock()
+        this.mouse.clicked = true
+        this.mouse.clickPosition.x = ev.offsetX
+        this.mouse.clickPosition.y = ev.offsetY
+
+        this.mouse.lastClickPosition.x = this.mouse.clickPosition
+      }
+    })
+
+    document.addEventListener('mouseup', () => {
+      this.mouse.clicked = false
+      if(document.pointerLockElement === this.mainCanvas) {
+        document.exitPointerLock()
+      }
     })
   },
 

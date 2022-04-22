@@ -1,8 +1,11 @@
 import { game } from './../game.js'
 
 export default class GameObject {
-  constructor() {
+  constructor(config) {
     game.gameObjects.push(this)
+
+    this.transform.position.x = config.x || 0
+    this.transform.position.y = config.y || 0
   }
   transform = {
     position: {
@@ -26,13 +29,9 @@ export default class GameObject {
     }
   }
 
-  get hasSprite() {
-    return this.components.some(component => component.constructor.name === 'Sprite')
-  }
-
-  get hasLabel() {
-    return this.components.some(component => component.constructor.name === 'Label')
-  }
+  get hasSprite() { return this.components.some(component => component.constructor.name === 'Sprite') }
+  get hasLabel() { return this.components.some(component => component.constructor.name === 'Label') }
+  get hasCollider() { return this.components.some(component => component.constructor.name === 'Collider') }
 
   components = []
 }

@@ -4,16 +4,15 @@ import Component from '../Component.js'
 
 export default class Sprite extends Component {
   constructor(config) {
-    super()
+    super(config)
     this.src = config.src
 
     this.sx = config.sx
     this.sy = config.sy
 
-    this.parent = config.parent
-
     this.width = config.width
     this.height = config.height
+    this.size = config.size
 
     this.init()
   }
@@ -54,7 +53,7 @@ export default class Sprite extends Component {
         this.width,
         this.height,
         screenPosition.x - this.width,
-        screenPosition.y - (this.height * 2) + this.parent.size.height,
+        screenPosition.y - (this.height * 2) + this.size.height,
         this.width * 2,
         this.height * 2
       )

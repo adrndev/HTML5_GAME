@@ -1,11 +1,10 @@
-import Component from "../Component.js";
+import Component from "../Component.js"
 import { game } from "./../../game.js"
 
 export default class Label extends Component {
   constructor(config) {
-    super()
+    super(config)
     this.text = config.label
-    this.parent = config.parent
 
     this.init()
   }

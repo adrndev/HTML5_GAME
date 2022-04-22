@@ -12,12 +12,6 @@ export default class Player extends Entity {
     this.init()
   }
 
-  stop() {
-    for (let prop in this.moveDirections) {
-      this.moveDirections[prop].state = false
-    }
-  }
-
   onStartMoving(dir) {
     this.moveDirections[dir].state = true
     this.facing = dir
@@ -33,12 +27,22 @@ export default class Player extends Entity {
   }
 
   move(point) {
-    if(game.camera) {
-      if((this.transform.position.x - Math.abs(game.camera.transform.position.x) + this.fov >= game.mainCanvas.width && point.x === 1)
+    if(game.camera && game.camera.target === this) {
+      if(((this.transform.position.x - Math.abs(game.camera.transform.position.x) + this.fov >= game.mainCanvas.width && point.x === 1)
       || (this.transform.position.x - Math.abs(game.camera.transform.position.x) - this.fov <= 0 && point.x === -1)
       || (this.transform.position.y - Math.abs(game.camera.transform.position.y) + this.fov >= game.mainCanvas.height && point.y === 1)
-      || (this.transform.position.y - Math.abs(game.camera.transform.position.y) - this.fov <= 0 && point.y === -1)) {
-        game.camera.move(point, this.speed)
+      || (this.transform.position.y - Math.abs(game.camera.transform.position.y) - this.fov <= 0 && point.y === -1))
+      && game.camera.focusingTarget === true) {
+        let [x, y] = Object.values(point)
+
+        game.camera.move({
+          x: x * this.speed * game.deltaTime,
+          y: y * this.speed * game.deltaTime,
+        })
+      }
+
+      if(game.camera.focusingTarget === false && !game.mouse.clicked) {
+        game.camera.toTarget()
       }
     }
     super.move(point)
@@ -47,7 +51,7 @@ export default class Player extends Entity {
   init() {
     super.init()
 
-    console.log(this);
+    console.log(this)
   }
 
   update() {

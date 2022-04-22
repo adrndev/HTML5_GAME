@@ -3,31 +3,62 @@ import GameObject from './GameObject.js'
 
 export default class Camera extends GameObject {
   constructor(config) {
-    super()
+    super(config)
     this.boundary = config.boundary || true
     this.target = config.target
+
+    this.toTarget()
   }
+
+  followingTarget = false
+  focusingTarget = false
 
   toTarget() {
+    this.focusingTarget = true
     this.transform.position = { ...this.target.transform.position }
-    this.transform.position.x -= game.mainCanvas.width / 2
-    this.transform.position.y -= game.mainCanvas.height / 2
+
+    let position = {
+      x: this.target.transform.position.x - game.mainCanvas.width / 2,
+      y: this.target.transform.position.y - game.mainCanvas.height / 2
+    }
+
+    if(this.boundary === true) {
+      if(position.x < 0) {
+        position.x = 0
+      } else if(position.x + game.mainCanvas.width > game.map.data.width * (game.tileSize * 2)) {
+        position.x = game.map.data.width * (game.tileSize * 2) - game.mainCanvas.width
+      }
+  
+      if(position.y < 0) {
+        position.y = 0
+      } else if(position.y + game.mainCanvas.height > game.map.data.height * (game.tileSize * 2)) {
+        position.y = game.map.data.height * (game.tileSize * 2) - game.mainCanvas.height
+      }
+    }
+
+    this.transform.position.x = position.x
+    this.transform.position.y = position.y
   }
 
-  move(point, speed) {
-    let moveSpeed = speed * game.deltaTime
-    if((this.transform.position.x + (moveSpeed * point.x) + game.mainCanvas.width < game.map.data.width * (game.tileSize * 2)
-    && this.transform.position.x + moveSpeed * point.x >= 0
-    && this.transform.position.y + moveSpeed * point.y >= 0
-    && this.transform.position.y + (moveSpeed * point.y) + game.mainCanvas.height < game.map.data.height * (game.tileSize * 2))
+  move(point) {
+    if((this.transform.position.x + point.x + game.mainCanvas.width <= game.map.data.width * (game.tileSize * 2)
+    && this.transform.position.x + point.x >= 0
+    && this.transform.position.y + point.y >= 0
+    && this.transform.position.y + point.y + game.mainCanvas.height <= game.map.data.height * (game.tileSize * 2))
     || this.boundary === false) {
-      this.transform.position.x += point.x * moveSpeed
-      this.transform.position.y += point.y * moveSpeed
+      this.transform.position.x += point.x
+      this.transform.position.y += point.y
+      return point
     }
+
+    return false
   }
 
   update() {
     super.update()
-    // this.transform.position = this.target.transform.position
+
+    if(this.followingTarget === true) {
+      this.toTarget()
+    }
   }
 }

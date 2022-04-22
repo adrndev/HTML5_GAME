@@ -3,10 +3,11 @@ import { game } from '../game.js'
 import { loadJson } from '../loaders.js'
 import Tileset from "./Tileset.js"
 import NPC from '../Classes/NPC.js'
+import Object from './Object.js'
 
 export default class Map extends GameObject {
   constructor(config) {
-    super()
+    super(config)
 
     this.map = game.gamedata.maps[config.mapId]
 
@@ -33,17 +34,23 @@ export default class Map extends GameObject {
     let objectLayers = this.data.layers.filter(key => key.type === 'objectgroup')
     for (let layer of objectLayers) {
       for (let object of layer.objects) {
+        let objectProperties = {
+          x: object.x * 2,
+          y: object.y * 2
+        }
+
+        if(object.properties) {
+          for (let prop of object.properties) {
+            objectProperties[prop.name] = prop.value
+          }
+        }
+
         switch (object.type) {
           case 'npc':
-            let npcObject = {
-              x: object.x * 2,
-              y: object.y * 2
-            }
-
-            for (let prop of object.properties) {
-              npcObject[prop.name] = prop.value
-            }
-            new NPC(npcObject)
+            new NPC(objectProperties)
+            break
+          case 'object':
+            new Object(objectProperties)
             break
         }
       }
@@ -99,7 +106,7 @@ export default class Map extends GameObject {
     for(let tileset of this.tilesets) {
       for(let y = 0; y < tileset.data.imageheight / game.tileSize; y++) {
         for(let x = 0; x < tileset.data.imagewidth / game.tileSize; x++) {
-          arr.push({sx: x * game.tileSize, sy: y * game.tileSize, tileset: tileset.data.name});
+          arr.push({sx: x * game.tileSize, sy: y * game.tileSize, tileset: tileset.data.name})
         }
       }
       this.textures = [...arr]
@@ -148,17 +155,13 @@ export default class Map extends GameObject {
   }
 
   draw() {
-    let ctx = game.mainCanvas.getContext('2d'),
-        { ...cameraPosition } = {
-          x: game.camera.transform.position.x,
-          y: game.camera.transform.position.y
-        } 
+    let ctx = game.mainCanvas.getContext('2d')
     
     for(let layer of this.layers) {
       ctx.drawImage(
         layer.canvas,
-        Math.round(-cameraPosition.x),
-        Math.round(-cameraPosition.y)
+        -game.camera.transform.position.x,
+        -game.camera.transform.position.y
       )
     }
   }

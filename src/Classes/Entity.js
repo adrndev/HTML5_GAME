@@ -2,21 +2,51 @@ import GameObject from './GameObject.js'
 import { game } from './../game.js'
 import Sprite from './Components/Sprite.js'
 import Label from './Components/Label.js'
+import Collider from './Components/Collider.js'
 
 export default class Entity extends GameObject {
   constructor(config) {
-    super()
-
-    this.transform.position.x = config.x || 0
-    this.transform.position.y = config.y || 0
+    super(config)
   }
   
   stepPhase = 0
   step = 0
 
+  get isPlayer() {
+    return this.constructor.name === 'Player'
+  }
+
+  stop() {
+    for (let prop in this.moveDirections) {
+      this.moveDirections[prop].state = false
+    }
+  }
+
   move(point) {
-    this.transform.position.x += point.x * this.speed * game.deltaTime
-    this.transform.position.y += point.y * this.speed * game.deltaTime
+    let xVal = point.x * this.speed * game.deltaTime,
+        yVal = point.y * this.speed * game.deltaTime,
+        tempCollider = new Collider({
+          x: this.transform.position.x + xVal,
+          y: this.transform.position.y + yVal,
+          width: this.size.width,
+          height: this.size.height,
+          temporary: true,
+          parent: this
+        }),
+        isColliding = Collider.isColliding(tempCollider)
+
+    if(this.hasCollider && !isColliding) {
+      this.transform.position.x += xVal
+      this.transform.position.y += yVal
+
+      // #DEVELOPMENT
+      if(this.isPlayer) {
+        sessionStorage.setItem('x', this.transform.position.x)
+        sessionStorage.setItem('y', this.transform.position.y)
+      }
+    } else if(!this.isPlayer) {
+      this.stop()
+    }
 
     let now = Date.now(),
     stepTime = 320
@@ -54,7 +84,7 @@ export default class Entity extends GameObject {
         point[direction.axis] = direction.value
         this.move(point)
 
-        if(this.constructor.name !== 'Player') {
+        if(!this.isPlayer) {
           this.facing = prop
         }
       }
@@ -68,22 +98,25 @@ export default class Entity extends GameObject {
     down: { state: false, value: 1, axis: "y" }
   }
 
-  //tymczasowe. przeniesc do data.json
+  // #DEVELOPMENT
   size = { width: 20, height: 12 }
 
   init() {
     super.init()
 
-    this.sprite = new Sprite(
-      {
-        src: this.character.src,
-        sx: this.character.sx,
-        sy: this.character.sy,
-        width: this.character.width,
-        height: this.character.height,
-        parent: this
-      }
-    )
+    this.collider = new Collider({
+      parent: this
+    })
+
+    this.sprite = new Sprite({
+      src: this.character.src,
+      sx: this.character.sx,
+      sy: this.character.sy,
+      width: this.character.width,
+      height: this.character.height,
+      size: this.character.size,
+      parent: this
+    })
 
     if(this.name) {
       this.label = new Label({ parent: this, label: this.name })

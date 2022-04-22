@@ -24,6 +24,10 @@
       "sy": 7,
       "width": 17,
       "height": 29,
+      "size": {
+        "width": 20,
+        "height": 12
+      },
       "animations": {
         "left": [{"sx": 4, "sy":43}, {"sx": 56, "sy":43}, {"sx": 30, "sy":43}],
         "right": [{"sx": 4, "sy":79}, {"sx": 56, "sy":79}, {"sx": 30, "sy":79}],
@@ -113,6 +117,68 @@
       "src": "sprites/_hearts_sheet.png"
     }
   ],
+  "objects": {
+    "tree1": {
+        "src": "sprites/outside.png",
+        "sx": 277,
+        "sy": 121,
+        "width": 35,
+        "height": 50,
+        "size": {
+            "width": 13,
+            "height": 7
+        },
+        "collision": true
+    },
+    "tree2": {
+        "src": "sprites/outside.png",
+        "sx": 320,
+        "sy": 120,
+        "width": 32,
+        "height": 48,
+        "size": {
+            "width": 14,
+            "height": 8
+        },
+        "collision": true
+    },
+    "tree3": {
+        "src": "sprites/outside.png",
+        "sx": 277,
+        "sy": 50,
+        "width": 52,
+        "height": 60,
+        "size": {
+            "width": 17,
+            "height": 9
+        },
+        "collision": true
+    },
+    "bigtree1": {
+        "src": "sprites/outside.png",
+        "sx": 532,
+        "sy": 16,
+        "width": 89,
+        "height": 96,
+        "size": {
+            "width": 26,
+            "height": 12
+        },
+        "collision": true
+    },
+    "sign1": {
+        "src": "sprites/outside.png",
+        "sx": 16,
+        "sy": 32,
+        "width": 16,
+        "height": 16,
+        "size": {
+            "width": 16,
+            "height": 4
+        },
+        "collision": true
+    }
+  },
   "entities": {
     "cow": {
       "src": "sprites/animals3.png",
@@ -204,6 +270,10 @@
       "sy": 151,
       "width": 17,
       "height": 29,
+      "size": {
+        "width": 20,
+        "height": 12
+      },
       "animations": {
         "left":   [{"sx": 83, "sy":188, "width": 15, "height": 28}, {"sx": 135, "sy":188, "width": 15, "height": 28}, {"sx": 109, "sy":187, "width": 15, "height": 29}],
         "right":  [{"sx": 83, "sy":224, "width": 15, "height": 28}, {"sx": 135, "sy":224, "width": 15, "height": 28}, {"sx": 109, "sy":223, "width": 15, "height": 29}],
@@ -218,6 +288,10 @@
       "sy": 148,
       "width": 17,
       "height": 32,
+      "size": {
+        "width": 20,
+        "height": 12
+      },
       "animations": {
         "left":   [{"sx": 161, "sy":185, "width": 15, "height": 31}, {"sx": 213, "sy":185, "width": 15, "height": 31}, {"sx": 187, "sy":184, "width": 15, "height": 31}],
         "right":  [{"sx": 161, "sy":221, "width": 15, "height": 31}, {"sx": 213, "sy":221, "width": 15, "height": 31}, {"sx": 187, "sy":220, "width": 15, "height": 31}],
@@ -232,6 +306,10 @@
       "sy": 148,
       "width": 17,
       "height": 32,
+      "size": {
+        "width": 20,
+        "height": 12
+      },
       "animations": {
         "left":   [{"sx": 239, "sy":185, "width": 15, "height": 31}, {"sx": 291, "sy":185, "width": 15, "height": 31}, {"sx": 265, "sy":184, "width": 15, "height": 32}],
         "right":  [{"sx": 239, "sy":221, "width": 15, "height": 31}, {"sx": 291, "sy":221, "width": 15, "height": 31}, {"sx": 265, "sy":220, "width": 15, "height": 32}],
