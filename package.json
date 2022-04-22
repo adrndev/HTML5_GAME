@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "nodemon .",
-    "build": "electron ."
+    "build": "electron .",
+    "app:dir": "electron-builder --dir",
+    "app:dist": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -24,5 +26,11 @@
   },
   "devDependencies": {
     "electron": "^18.1.0"
+  },
+  "build": {
+    "appId": "gamedev",
+    "mac": {
+      "category": "game"
+    }
   }
 }

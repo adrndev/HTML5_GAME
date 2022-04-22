@@ -23,7 +23,7 @@ NodeJS is needed to run the game locally. Docker support will be added soon.
 
 ## Planned features
 
-- Collision detection
+- Collision detection :white_check_mark:
 - A* path finding
 - Interactions
 - NPC wandering
@@ -36,5 +36,6 @@ NodeJS is needed to run the game locally. Docker support will be added soon.
 - Fight system
 - Changing locations
 - More soon..
+- Tiles collisions
 
 ### Sprites made by [finalbossblues](https://finalbossblues.com/)

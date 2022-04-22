@@ -109,10 +109,10 @@ export const game = {
     })
 
     document.addEventListener('mousemove', (ev) => {
-      this.mouse.x += ev.movementX
-      this.mouse.y += ev.movementY
-
       if(document.pointerLockElement === this.mainCanvas) {
+        this.mouse.x += ev.movementX
+        this.mouse.y += ev.movementY
+
         let diffX = this.mouse.clickPosition.x - this.mouse.x,
             diffY = this.mouse.clickPosition.y - this.mouse.y
         
@@ -124,18 +124,12 @@ export const game = {
       }
     })
 
-    this.mainCanvas.addEventListener('mozpointerlockchange', () => {
-
-    })
-
     this.mainCanvas.addEventListener('mousedown', (ev) => {
       if(ev.which == 2) {
         ev.preventDefault()
 
         this.mainCanvas.requestPointerLock()
         this.mouse.clicked = true
-        this.mouse.clickPosition.x = ev.offsetX
-        this.mouse.clickPosition.y = ev.offsetY
 
         this.mouse.lastClickPosition.x = this.mouse.clickPosition
       }

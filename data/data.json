@@ -177,6 +177,18 @@
             "height": 4
         },
         "collision": true
+    },
+    "bush1": {
+        "src": "sprites/outside.png",
+        "sx": 275,
+        "sy": 279,
+        "width": 26,
+        "height": 23,
+        "size": {
+            "width": 26,
+            "height": 23
+        },
+        "collision": true
     }
   },
   "entities": {
