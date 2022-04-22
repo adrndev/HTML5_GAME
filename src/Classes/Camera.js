@@ -42,16 +42,16 @@ export default class Camera extends GameObject {
 
   move(point) {
     if((this.transform.position.x + point.x + game.mainCanvas.width <= game.map.data.width * (game.tileSize * 2)
-    && this.transform.position.x + point.x >= 0
-    && this.transform.position.y + point.y >= 0
-    && this.transform.position.y + point.y + game.mainCanvas.height <= game.map.data.height * (game.tileSize * 2))
+    && this.transform.position.x + point.x >= 0)
     || this.boundary === false) {
       this.transform.position.x += point.x
-      this.transform.position.y += point.y
-      return point
     }
 
-    return false
+    if((this.transform.position.y + point.y >= 0
+    && this.transform.position.y + point.y + game.mainCanvas.height <= game.map.data.height * (game.tileSize * 2))
+    || this.boundary === false) {
+      this.transform.position.y += point.y
+    }
   }
 
   update() {

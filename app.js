@@ -7,7 +7,7 @@ eapp.use(express.static('.'))
 
 app.on('ready', function() {
   mainWindow = new BrowserWindow({
-    width: 1280,
+    width: 1080,
     height: 720,
     autoHideMenuBar: true,
     useContentSize: true,
