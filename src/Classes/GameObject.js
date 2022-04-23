@@ -7,6 +7,14 @@ export default class GameObject {
     this.transform.position.x = config.x || 0
     this.transform.position.y = config.y || 0
   }
+
+  get screenPosition() {
+    return {
+      x: this.transform.position.x - game.camera.transform.position.x,
+      y: this.transform.position.y - game.camera.transform.position.y
+    }
+  }
+
   transform = {
     position: {
       x: 0, y: 0
@@ -29,6 +37,7 @@ export default class GameObject {
     }
   }
 
+  get hasLight() { return this.components.some(component => component.constructor.name === 'Light') }
   get hasSprite() { return this.components.some(component => component.constructor.name === 'Sprite') }
   get hasLabel() { return this.components.some(component => component.constructor.name === 'Label') }
   get hasCollider() { return this.components.some(component => component.constructor.name === 'Collider') }

@@ -28,6 +28,8 @@ export default class Map extends GameObject {
 
   async loadData() {
     this.data = await loadJson(this.map.src)
+    this.width = this.data.width * game.tileSize * 2
+    this.height = this.data.height * game.tileSize * 2
   }
 
   loadObjects() {
@@ -45,13 +47,10 @@ export default class Map extends GameObject {
           }
         }
 
-        switch (object.type) {
-          case 'npc':
-            new NPC(objectProperties)
-            break
-          case 'object':
-            new Object(objectProperties)
-            break
+        if(object.type === 'npc') {
+          new NPC(objectProperties)
+        } else if(object.type === 'object') {
+          new Object(objectProperties)
         }
       }
     }
@@ -138,6 +137,7 @@ export default class Map extends GameObject {
               ctx = this.layers.find(key => key.name === currentTile.layer).canvas.getContext('2d')
 
           ctx.imageSmoothingEnabled = false
+          ctx.globalAlpha = 1
           ctx.drawImage(
             tilesetImage,
             texture.sx,
@@ -156,6 +156,8 @@ export default class Map extends GameObject {
 
   draw() {
     let ctx = game.mainCanvas.getContext('2d')
+
+    ctx.globalAlpha = 1
     
     for(let layer of this.layers) {
       ctx.drawImage(

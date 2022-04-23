@@ -11,6 +11,12 @@ export default class Object extends GameObject {
     this.init()
   }
 
+  update() {
+    super.update()
+
+    this.sprite.opacity = this.sprite?.overlaysPlayer ? .5 : 1
+  }
+
   init() {
     super.init()
 

@@ -13,8 +13,16 @@ export default class Sprite extends Component {
     this.width = config.width
     this.height = config.height
     this.size = config.size
+    this.opacity = 1
 
     this.init()
+  }
+
+  get overlaysPlayer() {
+    return game.player.transform.position.x < this.parent.transform.position.x + this.width &&
+    game.player.transform.position.x > this.parent.transform.position.x - this.width &&
+    game.player.transform.position.y < this.parent.transform.position.y &&
+    game.player.transform.position.y > this.parent.transform.position.y - this.height * 2 + this.size.height
   }
 
   image = null
@@ -38,13 +46,18 @@ export default class Sprite extends Component {
     this.load()
   }
 
+  get isVisible() {
+    return this.parent.screenPosition.x + this.width > 0
+        && this.parent.screenPosition.y + this.size.height > 0
+        && this.parent.screenPosition.x - this.width < game.mainCanvas.width
+        && this.parent.screenPosition.y + this.size.height - this.height * 2 < game.mainCanvas.height
+  }
+
   draw() {
-    if (this.ready) {
-      const ctx = game.mainCanvas.getContext('2d'),
-            screenPosition = {
-              x: this.parent.transform.position.x - game.camera.transform.position.x,
-              y: this.parent.transform.position.y - game.camera.transform.position.y
-            }
+    if (this.ready && this.isVisible) {
+      const ctx = game.mainCanvas.getContext('2d')
+
+      ctx.globalAlpha = this.opacity
             
       ctx.drawImage(
         this.image,
@@ -52,8 +65,8 @@ export default class Sprite extends Component {
         this.sy,
         this.width,
         this.height,
-        screenPosition.x - this.width,
-        screenPosition.y - (this.height * 2) + this.size.height,
+        this.parent.screenPosition.x - this.width,
+        this.parent.screenPosition.y - (this.height * 2) + this.size.height,
         this.width * 2,
         this.height * 2
       )

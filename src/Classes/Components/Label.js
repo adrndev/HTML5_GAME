@@ -17,11 +17,7 @@ export default class Label extends Component {
   }
 
   draw() {
-    const ctx = game.mainCanvas.getContext('2d'),
-          screenPosition = {
-            x: this.parent.transform.position.x - game.camera.transform.position.x,
-            y: this.parent.transform.position.y - game.camera.transform.position.y
-          }
+    const ctx = game.mainCanvas.getContext('2d')
 
     ctx.font = "13px Arial"
     ctx.fillStyle = "#fff"
@@ -29,7 +25,7 @@ export default class Label extends Component {
     ctx.lineWidth = 3
 
     let measure = ctx.measureText(this.text)
-    ctx.strokeText(this.text, screenPosition.x - measure.width / 2, screenPosition.y - game.tileSize * 3)
-    ctx.fillText(this.text, screenPosition.x - measure.width / 2, screenPosition.y - game.tileSize * 3)
+    ctx.strokeText(this.text, this.parent.screenPosition.x - measure.width / 2, this.parent.screenPosition.y - game.tileSize * 3)
+    ctx.fillText(this.text, this.parent.screenPosition.x - measure.width / 2, this.parent.screenPosition.y - game.tileSize * 3)
   }
 }

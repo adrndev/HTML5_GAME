@@ -16,13 +16,19 @@ export default class Collider extends Component {
     this.init()
   }
 
+  static rectToRect(collider1, collider2) {
+    return collider1.x < collider2.x + collider2.width &&
+    collider1.x + collider1.width > collider2.x &&
+    collider1.y < collider2.y + collider2.height &&
+    collider1.height + collider1.y > collider2.y
+  }
+
   static isColliding(collider) {
     let colliders = game.gameComponents.filter(key => key.constructor.name === 'Collider' && key.parent !== collider.parent)
     return colliders.some(key => {
-      return collider.x < key.x + key.width &&
-      collider.x + collider.width > key.x &&
-      collider.y < key.y + key.height &&
-      collider.height + collider.y > key.y
+      if(key.type === 'rect' && collider.type === 'rect') {
+        return this.rectToRect(collider, key)
+      }
     })
   }
 

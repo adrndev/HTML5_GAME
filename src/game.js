@@ -55,20 +55,20 @@ export const game = {
 
   lastUpdate: Date.now(),
   deltaTime: 0,
-
+  fps: 0,
   update: function () {
     requestAnimationFrame(this.update.bind(this))
 
     let now = Date.now()
     this.deltaTime = (now - this.lastUpdate) / 1000
     this.lastUpdate = now
+    this.fps = 1 / this.deltaTime
 
     for (let gameObject of this.gameObjects) {
       gameObject.update()
     }
 
-    this.clearCanvas()
-    this.drawScene()
+    this.camera.renderScene()
   },
 
   drawScene() {

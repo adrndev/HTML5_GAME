@@ -1,5 +1,6 @@
 import Entity from './Entity.js'
 import { game } from './../game.js'
+import Light from './Components/Light.js'
 
 export default class Player extends Entity {
   constructor(config) {
@@ -50,6 +51,12 @@ export default class Player extends Entity {
 
   init() {
     super.init()
+
+    // #DEVELOPMENT
+    this.light = new Light({
+      radius: 260,
+      parent: this
+    })
 
     console.log(this)
   }

@@ -191,6 +191,15 @@
         "collision": true
     }
   },
+  "items": {
+    "weapon1": {
+        "src": "sprites/items.png",
+        "sx": 242,
+        "sy": 1568,
+        "width": 13,
+        "height": 15
+    }
+  },
   "entities": {
     "cow": {
       "src": "sprites/animals3.png",
