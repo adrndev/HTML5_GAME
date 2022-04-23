@@ -30,12 +30,12 @@ NodeJS is needed to run the game locally. Docker support will be added soon.
 - Map animations
 - Loading screen
 - Audio manager
-- Lighting
+- Lighting :white_check_mark:
 - Random dungeon generator
 - Enemies
 - Fight system
 - Changing locations
-- More soon..
 - Tiles collisions
+- More soon..
 
 ### Sprites made by [finalbossblues](https://finalbossblues.com/)
