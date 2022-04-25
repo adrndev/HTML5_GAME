@@ -1,7 +1,7 @@
 # HTML5_GAME by adrn
 Official repository of my online RPG game made in HTML5, with a lot of javascript.
 Currently game works as singleplayer, i am focusing on basics for now.
-Game engine made 100% by me :blush:
+Game engine made 100% by me.
 
 ## How to run
 ### :arrow_right: Windows
