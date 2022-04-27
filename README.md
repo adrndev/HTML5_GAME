@@ -1,7 +1,7 @@
 # HTML5_GAME by adrn
 Official repository of my online RPG game made in HTML5, with a lot of javascript.
 Currently game works as singleplayer, i am focusing on basics for now.
-Game engine made 100% by me :blush:
+Game engine made 100% by me.
 
 ## How to run
 ### :arrow_right: Windows
@@ -30,12 +30,12 @@ NodeJS is needed to run the game locally. Docker support will be added soon.
 - Map animations
 - Loading screen
 - Audio manager
-- Lighting
+- Lighting :white_check_mark:
 - Random dungeon generator
 - Enemies
 - Fight system
 - Changing locations
-- More soon..
 - Tiles collisions
+- More soon..
 
 ### Sprites made by [finalbossblues](https://finalbossblues.com/)
