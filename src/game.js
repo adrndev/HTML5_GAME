@@ -1,9 +1,9 @@
-import Player from './Classes/Player.js'
-import Map from './Classes/Map.js'
-import NPC from './Classes/NPC.js'
+import Player from './Classes/Entities/Player.js'
+import Map from './Classes/GameObjects/Map.js'
+import NPC from './Classes/Entities/NPC.js'
 import { loadJson } from './loaders.js'
 import inputManager from './input.js'
-import Camera from './Classes/Camera.js'
+import Camera from './Classes/GameObjects/Camera.js'
 
 export const game = {
   init: async function () {
@@ -50,6 +50,8 @@ export const game = {
       x: 0, y: 0
     }
   },
+
+  paths: [],
 
   tileSize: 16,
 

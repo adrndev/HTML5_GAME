@@ -7,10 +7,13 @@ export default class Collider extends Component {
 
     this.type = config.type || 'rect'
 
-    this.x = config.x || this.parent.transform.position.x
-    this.y = config.y || this.parent.transform.position.y
-    this.width = config.width || this.parent.size.width
-    this.height = config.height || this.parent.size.height
+    this.x = this.parent.transform.position.x + config.offsetX
+    this.y = this.parent.transform.position.y + config.offsetY
+    this.width = config.width
+    this.height = config.height
+    this.offsetX = config.offsetX
+    this.offsetY = config.offsetY
+
     this.temporary = config.temporary || false
 
     this.init()
@@ -46,8 +49,8 @@ export default class Collider extends Component {
   update() {
     super.update()
 
-    this.x = this.parent.transform.position.x
-    this.y = this.parent.transform.position.y
+    this.x = this.parent.transform.position.x + this.offsetX
+    this.y = this.parent.transform.position.y + this.offsetY
   }
 
   init() {

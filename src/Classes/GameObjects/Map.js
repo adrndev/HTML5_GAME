@@ -1,9 +1,10 @@
-import GameObject from './GameObject.js'
-import { game } from '../game.js'
-import { loadJson } from '../loaders.js'
-import Tileset from "./Tileset.js"
-import NPC from '../Classes/NPC.js'
-import Object from './Object.js'
+import GameObject from '../GameObject.js'
+import { game } from '../../game.js'
+import { loadJson } from '../../loaders.js'
+import Tileset from "../Tileset.js"
+import NPC from '../Entities/NPC.js'
+import Object from './Thing.js'
+import Path from './Path.js'
 
 export default class Map extends GameObject {
   constructor(config) {
@@ -28,8 +29,6 @@ export default class Map extends GameObject {
 
   async loadData() {
     this.data = await loadJson(this.map.src)
-    this.width = this.data.width * game.tileSize * 2
-    this.height = this.data.height * game.tileSize * 2
   }
 
   loadObjects() {
@@ -51,6 +50,10 @@ export default class Map extends GameObject {
           new NPC(objectProperties)
         } else if(object.type === 'object') {
           new Object(objectProperties)
+        } else if(object.type === 'path') {
+          objectProperties.points = object.polyline
+          objectProperties.id = object.id
+          new Path(objectProperties)
         }
       }
     }
@@ -173,6 +176,16 @@ export default class Map extends GameObject {
       super.init()
 
       await this.loadData()
+
+      this.width = this.data.width * game.tileSize * 2
+      this.height = this.data.height * game.tileSize * 2
+
+      if(this.data.properties) {
+        for (let prop of this.data.properties) {
+          this[prop.name] = prop.value
+        }
+      }
+
       await this.loadTilesets()
 
       await Promise.all(this.tilesets.map(key => key.promise))

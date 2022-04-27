@@ -1,13 +1,13 @@
-import Entity from './Entity.js'
-import { game } from './../game.js'
-import Light from './Components/Light.js'
+import Entity from '../GameObjects/Entity.js'
+import { game } from '../../game.js'
+import Light from '../GameObjects/Light.js'
 
 export default class Player extends Entity {
   constructor(config) {
     super(config)
     this.name = config.name
     this.speed = config.speed
-    this.fov = 200
+    this.fov = 300
     this.character = game.gamedata.characters[config.characterId]
 
     this.init()

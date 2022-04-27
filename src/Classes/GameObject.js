@@ -40,7 +40,7 @@ export default class GameObject {
   get hasLight() { return this.components.some(component => component.constructor.name === 'Light') }
   get hasSprite() { return this.components.some(component => component.constructor.name === 'Sprite') }
   get hasLabel() { return this.components.some(component => component.constructor.name === 'Label') }
-  get hasCollider() { return this.components.some(component => component.constructor.name === 'Collider') }
+  get hasColliders() { return this.components.some(component => component.constructor.name === 'Collider') }
 
   components = []
 }

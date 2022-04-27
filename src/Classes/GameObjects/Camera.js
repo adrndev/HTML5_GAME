@@ -1,5 +1,5 @@
-import { game } from './../game.js'
-import GameObject from './GameObject.js'
+import { game } from '../../game.js'
+import GameObject from '../GameObject.js'
 
 export default class Camera extends GameObject {
   constructor(config) {
@@ -61,25 +61,24 @@ export default class Camera extends GameObject {
       }
     }
 
-    if(true) {
-      let mainCtx = game.mainCanvas.getContext('2d'),
-          ctx = this.shadowCanvas.getContext('2d')
+    if(game.map.night) {
+      let ctx = this.shadowCanvas.getContext('2d')
 
       ctx.globalCompositeOperation = 'source-over'
       ctx.clearRect(0, 0, this.shadowCanvas.width, this.shadowCanvas.height)
       ctx.fillStyle = 'rgba(0, 0, 0, .9)'
       ctx.fillRect(0, 0, this.shadowCanvas.width, this.shadowCanvas.height)
 
-      let lightComponents = game.gameComponents.filter(key => key.constructor.name === 'Light')
+      let lights = game.gameObjects.filter(key => key.constructor.name === 'Light')
 
       ctx.globalCompositeOperation = 'destination-out'
-      for(let light of lightComponents) {
+      for(let light of lights) {
         light.draw(ctx)
       }
 
-      mainCtx.drawImage(this.shadowCanvas, 0, 0)
-
-      // console.log(lightComponents);
+      let mainContext = game.mainCanvas.getContext('2d')
+      mainContext.globalAlpha = 1
+      mainContext.drawImage(this.shadowCanvas, 0, 0)
     }
   }
 

@@ -7,13 +7,9 @@ export default class Sprite extends Component {
     super(config)
     this.src = config.src
 
-    this.sx = config.sx
-    this.sy = config.sy
-
-    this.width = config.width
-    this.height = config.height
-    this.size = config.size
+    this.setFrame(config)
     this.opacity = 1
+    this.parent = config.parent
 
     this.init()
   }
@@ -22,7 +18,7 @@ export default class Sprite extends Component {
     return game.player.transform.position.x < this.parent.transform.position.x + this.width &&
     game.player.transform.position.x > this.parent.transform.position.x - this.width &&
     game.player.transform.position.y < this.parent.transform.position.y &&
-    game.player.transform.position.y > this.parent.transform.position.y - this.height * 2 + this.size.height
+    game.player.transform.position.y > this.parent.transform.position.y - this.height * 2 + this.offsetY
   }
 
   image = null
@@ -33,9 +29,15 @@ export default class Sprite extends Component {
     this.image = await loadImage(this.src)
   }
 
-  changeFrame(config) {
-    this.sx = config.sx
-    this.sy = config.sy
+  setFrame(config) {
+    this.sx = config.frame.sx
+    this.sy = config.frame.sy
+
+    this.width = config.frame.width
+    this.height = config.frame.height
+
+    this.offsetY = config.offsetY
+    this.offsetX = config.offsetX
   }
 
   init() {
@@ -48,9 +50,9 @@ export default class Sprite extends Component {
 
   get isVisible() {
     return this.parent.screenPosition.x + this.width > 0
-        && this.parent.screenPosition.y + this.size.height > 0
+        && this.parent.screenPosition.y + this.offsetY > 0
         && this.parent.screenPosition.x - this.width < game.mainCanvas.width
-        && this.parent.screenPosition.y + this.size.height - this.height * 2 < game.mainCanvas.height
+        && this.parent.screenPosition.y + this.offsetY - this.height * 2 < game.mainCanvas.height
   }
 
   draw() {
@@ -66,7 +68,7 @@ export default class Sprite extends Component {
         this.width,
         this.height,
         this.parent.screenPosition.x - this.width,
-        this.parent.screenPosition.y - (this.height * 2) + this.size.height,
+        this.parent.screenPosition.y - (this.height * 2) + this.offsetY,
         this.width * 2,
         this.height * 2
       )
