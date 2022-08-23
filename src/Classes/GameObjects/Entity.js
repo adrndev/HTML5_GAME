@@ -16,10 +16,6 @@ export default class Entity extends GameObject {
   stepPhase = 0
   step = 0
 
-  get isPlayer() {
-    return this.constructor.name === 'Player'
-  }
-
   stop() {
     for (let prop in this.moveDirections) {
       this.moveDirections[prop].state = false
@@ -103,7 +99,7 @@ export default class Entity extends GameObject {
       this.colliders = [new Collider({
         width: this.character.collider.width,
         height: this.character.collider.height,
-        offsetX: this.character.collider.offsetX,
+        offsetX: this.character.collider.offsetX - this.size.width / 2,
         offsetY: this.character.collider.offsetY,
         parent: this
       })]
@@ -114,10 +110,6 @@ export default class Entity extends GameObject {
       frame: this.character.animations[this.facing][this.step],
       offsetY: this.size.height,
       offsetX: this.size.width,
-      // sx: this.character.animations[this.facing].sx,
-      // sy: this.character.animations[this.facing].sy,
-      // width: this.character.animations[this.facing].width,
-      // height: this.character.animations[this.facing].height,
       parent: this
     })
 

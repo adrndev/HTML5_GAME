@@ -61,6 +61,8 @@ export const game = {
   update: function () {
     requestAnimationFrame(this.update.bind(this))
 
+    this.camera.clearCanvas()
+
     let now = Date.now()
     this.deltaTime = (now - this.lastUpdate) / 1000
     this.lastUpdate = now
@@ -143,6 +145,16 @@ export const game = {
         document.exitPointerLock()
       }
     })
+
+    // #DEVELOPMENT
+    // document.addEventListener("visibilitychange", function() {
+    //   if (document.visibilityState === 'visible') {
+    //       console.log('has focus');
+    //       this.lastUpdate = Date.now()
+    //   } else {
+    //       console.log('lost focus');
+    //   }
+    // })
   },
 
   clearCanvas: function () {

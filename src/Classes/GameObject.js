@@ -28,7 +28,8 @@ export default class GameObject {
   }
 
   init() {
-    console.log(`${this.constructor.name} created`);
+    // #DEVELOPMENT
+    // console.log(`${this.constructor.name} created`);
   }
 
   update() {

@@ -14,7 +14,13 @@ export default class Thing extends GameObject {
   update() {
     super.update()
 
-    this.sprite.opacity = this.sprite?.overlaysPlayer ? .5 : 1
+    if(this.sprite?.overlaysPlayer) {
+      if(this.sprite.opacity > .5) this.sprite.opacity = Math.round((this.sprite.opacity - .05) * 100) / 100
+    } else {
+      if(this.sprite.opacity < 1) this.sprite.opacity = Math.round((this.sprite.opacity + .05) * 100) / 100
+    }
+
+    // this.sprite.opacity = this.sprite?.overlaysPlayer ? .5 : 1
   }
 
   init() {
@@ -44,8 +50,8 @@ export default class Thing extends GameObject {
         width: this.object.width,
         height: this.object.height,
       },
-      offsetX: this.object.size.width,
-      offsetY: this.object.size.height,
+      offsetX: 0,
+      offsetY: 0                                                        ,
       parent: this
     })
   }

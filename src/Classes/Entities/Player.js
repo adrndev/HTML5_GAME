@@ -9,6 +9,7 @@ export default class Player extends Entity {
     this.speed = config.speed
     this.fov = 300
     this.character = game.gamedata.characters[config.characterId]
+    this.isPlayer = true
 
     this.init()
   }

@@ -45,8 +45,6 @@ export default class Camera extends GameObject {
       return a.transform.position.y - b.transform.position.y
     }
 
-    this.clearCanvas()
-
     game.map.draw()
 
     let sortedGameObjects = game.gameObjects.sort(sortByYAxis)
@@ -80,6 +78,23 @@ export default class Camera extends GameObject {
       mainContext.globalAlpha = 1
       mainContext.drawImage(this.shadowCanvas, 0, 0)
     }
+
+    // #DEVELOPMENT
+    // let test = game.gameComponents.filter(key => key.parent.constructor.name === 'Tile'),
+    //     ctx = game.mainCanvas.getContext('2d')
+
+    // for(let t of test) {
+      
+      
+    //   ctx.strokeRect(t.x, t.y, t.width, t.height)
+    // }
+
+    // ctx.strokeRect(
+    //   game.player.colliders[0].x,
+    //   game.player.colliders[0].y,
+    //   game.player.colliders[0].width,
+    //   game.player.colliders[0].height
+    // )
   }
 
   clearCanvas() {

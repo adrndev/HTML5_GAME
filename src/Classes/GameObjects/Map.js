@@ -5,6 +5,7 @@ import Tileset from "../Tileset.js"
 import NPC from '../Entities/NPC.js'
 import Object from './Thing.js'
 import Path from './Path.js'
+import Tile from './Tile.js'
 
 export default class Map extends GameObject {
   constructor(config) {
@@ -17,7 +18,7 @@ export default class Map extends GameObject {
 
   tilesets = []
   layers = []
-  #tiles = []
+  tiles = []
   textures = []
 
   async loadTilesets() {
@@ -67,16 +68,18 @@ export default class Map extends GameObject {
       [ posX, posY, xVal, yVal, loop ] = Array(5).fill(0)
       for(let tileId of layer.data) {
         if(tileId !== 0) {
-          let tileset = [...this.tilesets].reverse().find(key => tileId > key.firstgid)
+          let tileset = [...this.tilesets].reverse().find(key => tileId > key.firstgid),
+              texture = this.textures.find(key => key.id + 1 === tileId)
 
-          let tile = {
+          let tile = new Tile({
             x: posX,
             y: posY,
             id: loop,
             tileId: tileId,
             tileset: tileset.name,
-            layer: layer.name
-          }
+            layer: layer.name,
+            texture
+          })
   
           if (!tiles[xVal]) {
             tiles.push(new Array())
@@ -100,15 +103,32 @@ export default class Map extends GameObject {
         }
       }
     }
-    this.#tiles = tiles
+    this.tiles = tiles
   }
 
   generateTextures() {
-    let arr = []
+    let arr = [],
+        tilesetId = 0
     for(let tileset of this.tilesets) {
+      tilesetId = 0
       for(let y = 0; y < tileset.data.imageheight / game.tileSize; y++) {
         for(let x = 0; x < tileset.data.imagewidth / game.tileSize; x++) {
-          arr.push({sx: x * game.tileSize, sy: y * game.tileSize, tileset: tileset.data.name})
+          let texture = {
+            sx: x * game.tileSize,
+            sy: y * game.tileSize,
+            tileset: tileset.data.name,
+            id: arr.length,
+            tilesetId
+          }
+
+          let tile = game.map.tilesets.find(key => key.name === tileset.data.name).data.tiles?.find(key => key.id === tilesetId)
+                                      
+          if(tile) {
+            texture.objectgroup = tile.objectgroup
+          }
+
+          arr.push(texture)
+          tilesetId++
         }
       }
       this.textures = [...arr]
@@ -131,11 +151,11 @@ export default class Map extends GameObject {
       return layers
     })()
 
-    for(const [xIndex, xVal] of this.#tiles.entries()) {
-      for(const [yIndex, yVal] of this.#tiles[xIndex].entries()) {
-        let currentTiles = this.#tiles[xIndex][yIndex]
+    for(const xIndex in this.tiles) {
+      for(const yIndex in this.tiles[xIndex]) {
+        let currentTiles = this.tiles[xIndex][yIndex]
         for(const currentTile of currentTiles) {
-          let texture = this.textures[currentTile.tileId - 1],
+          let texture = this.textures.find(key => key.id === currentTile.tileId - 1),
               tilesetImage = this.tilesets.find(key => key.name === currentTile.tileset).image,
               ctx = this.layers.find(key => key.name === currentTile.layer).canvas.getContext('2d')
 

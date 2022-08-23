@@ -19,6 +19,8 @@ export default class NPC extends Entity {
       this.currentPoint = null
     }
 
+    this.isPlayer = false
+
     this.init()
   }
 
